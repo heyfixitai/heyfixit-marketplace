@@ -1,0 +1,20 @@
+{
+  "name": "heyfixit-cost-recon",
+  "version": "0.3.0",
+  "description": "Verify supplier and subcontractor invoices against your contracted rates and the work actually done, and keep a finance-ready reconciliation in Airtable. Set up your base, load rate cards, reconcile invoices, and manage it all in a live dashboard.",
+  "author": {
+    "name": "HeyFixit",
+    "email": "contact@heyfixit.ai"
+  },
+  "homepage": "https://heyfixit.ai",
+  "license": "LicenseRef-PolyForm-Internal-Use-1.0.0",
+  "keywords": [
+    "facilities-management",
+    "invoice",
+    "reconciliation",
+    "accounts-payable",
+    "airtable",
+    "fm",
+    "rate-card"
+  ]
+}

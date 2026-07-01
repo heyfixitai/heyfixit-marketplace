@@ -1,0 +1,33 @@
+{
+  "name": "heyfixit",
+  "owner": {
+    "name": "HeyFixit",
+    "email": "contact@heyfixit.ai",
+    "url": "https://heyfixit.ai"
+  },
+  "metadata": {
+    "description": "HeyFixit plugins for facilities-management back-office automation.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "heyfixit-cost-recon",
+      "source": "./heyfixit-cost-recon",
+      "description": "Verify supplier and subcontractor invoices against your contracted rates and the work actually done, and keep a finance-ready reconciliation in Airtable.",
+      "version": "0.3.0",
+      "author": {
+        "name": "HeyFixit",
+        "email": "contact@heyfixit.ai"
+      },
+      "homepage": "https://heyfixit.ai",
+      "keywords": [
+        "facilities-management",
+        "invoice",
+        "reconciliation",
+        "accounts-payable",
+        "airtable",
+        "fm"
+      ]
+    }
+  ]
+}

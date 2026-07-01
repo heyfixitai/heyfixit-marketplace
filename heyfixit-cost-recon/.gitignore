@@ -1,0 +1,11 @@
+# Never commit caches, OS junk, or run-time scratch into the plugin repo.
+__pycache__/
+*.pyc
+.DS_Store
+# scratch produced by the skills at runtime (should live in the working dir, not here)
+case.json
+submission.json
+tables.json
+writes.json
+dashboard.filled.html
+__probe__

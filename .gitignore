@@ -1,0 +1,4 @@
+# Never commit OS junk or caches to the marketplace repo.
+.DS_Store
+__pycache__/
+*.pyc

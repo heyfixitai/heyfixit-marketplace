@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>:root{color-scheme:light}html,body{margin:0;padding:14px;background:#f6f7f9}</style>
+</head>
+<body>
+<div id="hcr-root">
+<style>
+  #hcr-root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1d1d1f;font-size:14px;line-height:1.45;
+    --ink:#1d1d1f;--mut:#6e6e73;--line:#e7e7ea;--v:#1a7f4b;--vbg:#e7f5ec;--f:#b54708;--fbg:#fdf0e6;--u:#6e6e73;--ubg:#f1f1f4;--accent:#0a6cff;--accent-soft:#eaf2ff;--card:#fff;--bg:#f6f7f9;--shadow:0 1px 3px rgba(0,0,0,.05),0 8px 24px rgba(0,0,0,.04)}
+  #hcr-root *{box-sizing:border-box}
+  .hbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .brand{font-weight:680;letter-spacing:-.2px;font-size:17px}
+  .tabs{display:flex;gap:4px;margin-left:4px}
+  .tab{padding:6px 12px;border-radius:9px;cursor:pointer;color:var(--mut);font-weight:600;font-size:13px}
+  .tab.active{background:var(--accent-soft);color:var(--accent)}
+  .sp{flex:1}
+  .src{font-size:11px;color:var(--mut);background:var(--ubg);border:1px solid var(--line);padding:3px 9px;border-radius:999px}
+  .btn{border:0;background:var(--accent);color:#fff;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .btn:hover{filter:brightness(.96)}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:#cfcfd6}
+  .help{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--mut);font-weight:700;cursor:pointer}
+  .help:hover{border-color:var(--accent);color:var(--accent)}
+  .q-ic{display:inline-flex;width:15px;height:15px;border-radius:50%;border:1px solid var(--line);color:var(--mut);font-size:10px;font-weight:700;align-items:center;justify-content:center;cursor:pointer;vertical-align:middle;margin-left:4px}
+  .q-ic:hover{border-color:var(--accent);color:var(--accent)}
+  .demo{background:var(--fbg);border:1px solid #f3d8bf;color:#7a4708;border-radius:11px;padding:10px 14px;margin-bottom:14px;font-size:13px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;box-shadow:var(--shadow)}
+  .kpi .label{color:var(--mut);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+  .kpi .value{font-size:25px;font-weight:680;letter-spacing:-.5px;margin-top:6px}
+  .kpi .sub{color:var(--mut);font-size:11.5px;margin-top:3px}
+  .kpi.hero .value{color:var(--v)} .kpi.money .value{color:var(--f)}
+  .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+  .mini{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .mini .label{color:var(--mut);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+  .mini .value{font-size:18px;font-weight:680;margin-top:2px}
+  .bars{display:flex;gap:4px;margin-top:8px;height:8px}.bars span{height:8px;border-radius:3px}
+  .fr{display:flex;gap:14px;margin-top:7px;flex-wrap:wrap}.fr div{font-size:12px;color:var(--mut);white-space:nowrap}.fr b{color:var(--ink);font-size:15px;font-weight:680}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  .card .head{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .card .head h3{margin:0;font-size:14.5px;font-weight:640}
+  .filters{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;align-items:center}
+  .fbtn{font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card);cursor:pointer;color:var(--mut)}
+  .fbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .toggle{font-size:12px;color:var(--mut);display:flex;align-items:center;gap:5px;cursor:pointer;user-select:none}
+  .chip{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap;display:inline-block}
+  .chip.v{background:var(--vbg);color:var(--v)} .chip.f{background:var(--fbg);color:var(--f)} .chip.u{background:var(--ubg);color:var(--u)}
+  .stbadge{display:inline-block;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:#eef1f6;color:#3a4a63;margin-left:5px;white-space:nowrap}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);font-size:13px}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:var(--mut);font-weight:600}
+  tbody tr:hover{background:#fafafb} tbody tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums} .qd{color:var(--f);font-weight:600}
+  td.sel,th.sel{width:34px;text-align:center} .qcheck{width:15px;height:15px;cursor:pointer}
+  .clk{cursor:pointer} .cvg{font-size:12px;color:var(--mut)}
+  .bulkbar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--accent-soft);border-bottom:1px solid var(--line);font-size:13px;flex-wrap:wrap}
+  .scrim{position:fixed;inset:0;background:rgba(16,18,22,.34);opacity:0;pointer-events:none;transition:.18s;z-index:30}
+  .scrim.open{opacity:1;pointer-events:auto}
+  .panel{position:fixed;top:0;right:0;height:100%;width:min(720px,95vw);background:var(--bg);box-shadow:-10px 0 36px rgba(16,18,22,.16);transform:translateX(100%);transition:.22s;z-index:31;overflow-y:auto}
+  .panel.open{transform:none} .panel.full{width:100%}
+  .panel .ph{background:var(--card);border-bottom:1px solid var(--line);padding:16px 20px;position:sticky;top:0;display:flex;gap:12px;z-index:1}
+  .panel .x{cursor:pointer;color:var(--mut);font-size:22px;line-height:1;border:0;background:none}
+  .pbody{padding:18px 20px} .panel h2{margin:4px 0 2px;font-size:18px} .meta{color:var(--mut);font-size:13px}
+  .ph-actions{display:flex;gap:8px;align-items:center;margin-left:auto;flex-shrink:0}
+  .fs{cursor:pointer;color:var(--mut);font-size:12px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:14px}
+  .sec h4{margin:0 0 10px;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;color:var(--mut)}
+  .verdict.p{background:var(--vbg);border:1px solid #b8e4cb;color:var(--v);border-radius:10px;padding:11px 14px;font-weight:650}
+  .verdict.f{background:var(--fbg);border:1px solid #f3d3b3;color:#8a4b08;border-radius:10px;padding:11px 14px;font-weight:650}
+  .verdict .vsub{font-weight:500;opacity:.92;font-size:13px;margin-top:3px}
+  .qlist{margin:10px 0 0;padding-left:18px} .qlist li{margin:6px 0}
+  .ck{display:inline-block;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:6px}
+  .ck.p{background:var(--vbg);color:var(--v)} .ck.f{background:var(--fbg);color:var(--f)} .ck.u{background:#eef0f3;color:#5b6470} .ck.na{background:#f4f4f7;color:#9a9aa2}
+  .cover{font-size:13px;color:#344054} .cover b{color:var(--ink)}
+  .qedit{width:100%;min-height:120px;border:1px solid var(--line);border-radius:10px;padding:11px;font:inherit;font-size:13px;resize:vertical}
+  .row-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#101216;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;opacity:0;transition:.2s;z-index:70}
+  .toast.show{opacity:1;transform:translateX(-50%)}
+  .err{background:var(--fbg);border:1px solid #f3d3b3;color:#8a4b08;border-radius:11px;padding:10px 14px;font-size:13px;margin-bottom:14px}
+  .hidden{display:none}
+  .setrow{display:flex;gap:24px;flex-wrap:wrap;padding:16px}
+  .setf label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:var(--mut);font-weight:600;margin-bottom:4px}
+  .setf input,.setf select{width:220px;max-width:60vw;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:#fff}
+  .ratewrap{max-height:340px;overflow:auto} .ratewrap td,.ratewrap th{padding:8px 12px;font-size:12.5px} .rt-rate{font-variant-numeric:tabular-nums}
+  /* modal (help glossary) */
+  .mscrim{position:fixed;inset:0;background:rgba(16,18,22,.4);opacity:0;pointer-events:none;transition:.15s;z-index:80}
+  .mscrim.open{opacity:1;pointer-events:auto}
+  .modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-46%);width:min(560px,94vw);max-height:86vh;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 24px 60px rgba(16,18,22,.28);z-index:81;opacity:0;pointer-events:none;transition:.15s;padding:22px}
+  .modal.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+  .modal h3{margin:0 0 4px;font-size:17px} .gl{margin-top:14px} .gl dt{font-weight:650;margin-top:12px} .gl dd{margin:2px 0 0;color:#344054;font-size:13px}
+  /* floating upsell */
+  .upsell{position:fixed;right:20px;bottom:20px;z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+  .ufab{border:0;background:var(--ink);color:#fff;border-radius:999px;padding:11px 16px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 10px 28px rgba(16,18,22,.26)}
+  .ucard{display:none;width:320px;background:linear-gradient(125deg,#0a1f3c,#10355f);color:#fff;border-radius:16px;box-shadow:0 18px 50px rgba(16,18,22,.3);padding:18px}
+  .ucard.open{display:block} .ucard h4{margin:0 0 6px;font-size:15px} .ucard ul{margin:6px 0 12px;padding-left:18px;font-size:12.5px;opacity:.9}.ucard li{margin:4px 0}
+  .ucard .btn{background:#fff;color:#10355f;width:100%;text-align:center}
+  /* verified pack (rendered in-artifact - no popup) */
+  .packov{position:fixed;inset:0;background:#fff;z-index:90;overflow:auto;display:none}
+  .packov.open{display:block}
+  .packtb{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;align-items:center;z-index:1}
+  .packdoc{max-width:760px;margin:24px auto 60px;padding:0 20px;color:#1a2230;font-size:14px;line-height:1.5}
+  .packdoc h1{font-size:20px;margin:0 0 4px} .packdoc h3{margin:18px 0 6px;font-size:15px} .packdoc .m{color:#667}
+  .packdoc table{width:100%;border-collapse:collapse;margin:14px 0}
+  .packdoc th,.packdoc td{border-bottom:1px solid #e6e9ee;padding:8px;text-align:left;font-size:13px;vertical-align:top}
+  .packdoc th{font-size:11px;text-transform:uppercase;color:#667}
+  .packdoc .q{background:#fafbfc;border:1px solid #e6e9ee;border-radius:8px;padding:12px;white-space:pre-wrap}
+  @media print{ body{background:#fff!important} #hcr-root>*{display:none!important} #hcr-root>.packov.open{display:block!important;position:static} .packtb{display:none!important} }
+  @media(max-width:880px){.kpis,.strip{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<div class="hbar">
+  <span class="brand">Cost Reconciliation</span>
+  <div class="tabs"><span class="tab active" id="tabDash" onclick="hcrTab('dash')">Dashboard</span><span class="tab" id="tabSet" onclick="hcrTab('set')">Settings</span></div>
+  <span class="sp"></span>
+  <span class="src" id="srcTag">loading...</span>
+  <button class="help" onclick="hcrHelp()" title="What do these terms mean?">?</button>
+  <button class="btn ghost" onclick="hcrReconcileNew()">+ Reconcile an invoice</button>
+  <button class="btn" onclick="hcrLoad()">Refresh</button>
+</div>
+
+<div id="demoBanner" class="demo hidden"><b>Sample data</b> &mdash; connect Airtable to go live. Forward invoices to your inbox, or use <b>+ Reconcile an invoice</b> in chat.</div>
+<div id="errBox"></div>
+
+<div id="dash">
+  <div class="kpis" id="kpis"></div>
+  <div class="strip" id="strip"></div>
+  <div class="card">
+    <div class="head"><h3>Reconciliations</h3>
+      <div class="filters" id="filters"></div>
+      <label class="toggle"><input type="checkbox" id="showArch" onchange="renderQueue()"> show archived</label>
+    </div>
+    <div class="bulkbar hidden" id="bulkbar"><span id="bulkn">0 selected</span><span class="sp"></span>
+      <button class="fbtn" onclick="hcrBulk('Sent to finance')">Sent to finance</button>
+      <button class="fbtn" onclick="hcrBulk('Queried')">Query sent</button>
+      <button class="fbtn" onclick="hcrBulk('Resolved')">Resolved</button>
+      <button class="fbtn" onclick="hcrBulk('Archived')">Archive</button>
+      <button class="fbtn" onclick="hcrClearSel()">Clear</button></div>
+    <table>
+      <thead><tr><th class="sel"><input type="checkbox" id="selAll" class="qcheck" onclick="hcrSelAll(this.checked)"></th>
+        <th>Status</th><th>WO ref</th><th>Vendor</th><th>Invoice</th><th>Checked<span class="q-ic" onclick="hcrHelp()">?</span></th><th class="num">Total</th><th class="num">Under query</th></tr></thead>
+      <tbody id="queue"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="set" class="hidden">
+  <div class="card">
+    <div class="head"><h3>Settings</h3><button class="btn ghost" style="margin-left:auto" onclick="hcrSaveSettings()">Save</button></div>
+    <div class="setrow">
+      <div class="setf"><label>Default currency</label><select id="setCcy"></select></div>
+      <div class="setf"><label>Operator name (signs queries)</label><input id="setName" placeholder="Jane Smith, Accounts Payable"></div>
+      <div class="setf"><label>Company</label><input id="setCo" placeholder="Acme Facilities"></div>
+    </div>
+    <div style="padding:0 16px 16px;color:var(--mut);font-size:12.5px">These persist in your Airtable <b>Settings</b> table and are used across the tool. The operator name signs vendor queries &mdash; change it here and every drafted query updates. Per-invoice currency is read from each invoice; this default is used when one isn't given.</div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div class="head"><h3>Vendors</h3></div>
+    <table><thead><tr><th>Vendor</th><th class="num">Rate lines</th></tr></thead><tbody id="vendorRows"></tbody></table>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div class="head"><h3>Rate card</h3><span class="cvg" style="margin-left:auto" id="rateCount"></span></div>
+    <div class="ratewrap"><table><thead><tr><th>Vendor</th><th>Trade / description</th><th>Type</th><th>Band</th><th>Unit</th><th class="num">Rate</th></tr></thead><tbody id="rateRows"></tbody></table></div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim" onclick="hcrClose()"></div>
+<div class="panel" id="panel"></div>
+<div class="packov" id="packov">
+  <div class="packtb"><b>Verified pack</b><span class="sp"></span>
+    <button class="btn" onclick="hcrPackPrint()">Print / Save as PDF</button>
+    <button class="btn ghost" onclick="hcrPackDownload()">Download (HTML)</button>
+    <button class="btn ghost" onclick="hcrPackClose()">Close</button></div>
+  <div id="packBody"></div>
+</div>
+<div class="mscrim" id="mscrim" onclick="hcrHelpClose()"></div>
+<div class="modal" id="modal"></div>
+<div class="toast" id="toast"></div>
+
+<div class="upsell">
+  <div class="ucard" id="ucard">
+    <h4 style="display:flex;align-items:center;gap:9px"><svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true" style="flex:none"><rect x="5" y="5" width="90" height="90" rx="20" fill="#fbf1ec" stroke="#0f0f0f" stroke-width="7"/><text x="50" y="50" text-anchor="middle" dominant-baseline="central" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="52" fill="#0f0f0f" letter-spacing="-3">HF</text></svg>Production version <span style="opacity:.8;font-weight:600">by HeyFixit</span></h4>
+    <p style="margin:0 0 8px;font-size:12.5px;opacity:.9">This free tool checks one invoice at a time. HeyFixit runs it always-on, wired into your CMMS &amp; finance system, across every supplier.</p>
+    <ul><li>Integrates with your CMMS &amp; finance &mdash; no manual forwarding</li><li>Always-on across every supplier, 24/7</li><li>Verifies scope &amp; quality; handles Schedule-of-Rates contracts</li></ul>
+    <a class="btn" href="https://tally.so/r/GxxVQe" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none">Book a demo</a>
+  </div>
+  <button class="ufab" onclick="document.getElementById('ucard').classList.toggle('open')" style="display:inline-flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 100 100" aria-hidden="true" style="flex:none"><rect x="5" y="5" width="90" height="90" rx="20" fill="#fbf1ec" stroke="#0f0f0f" stroke-width="7"/><text x="50" y="50" text-anchor="middle" dominant-baseline="central" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="52" fill="#0f0f0f" letter-spacing="-3">HF</text></svg>Get the production version &mdash; HeyFixit</button>
+</div>
+
+<script>
+// heyfixit-cost-recon dashboard v2. Keyless (Cowork connector). Pure-ASCII source;
+// currency via Intl.NumberFormat per-row. Every write logs an Actor-attributed Event.
+const HCR={recons:[],vendors:[],rates:[],settings:{},filter:"All",tab:"dash",sel:new Set(),live:false,fmap:{},_baseId:null,_reconTid:null,_evTid:null,_setTid:null,_setRec:null};
+const LOCALE={GBP:"en-GB",USD:"en-US",EUR:"de-DE",AUD:"en-AU",CAD:"en-CA",INR:"en-IN",JPY:"ja-JP",CHF:"de-CH",AED:"ar-AE",ZAR:"en-ZA",SGD:"en-SG",NZD:"en-NZ"};
+const CURRENCIES=["GBP","EUR","USD","AUD","CAD","INR","JPY","CHF","AED","ZAR","SGD","NZD"];
+function money(n,c){ if(n==null||n==="")return "&mdash;"; c=c||HCR.settings.currency||"GBP"; try{return new Intl.NumberFormat(LOCALE[c]||"en-GB",{style:"currency",currency:c,maximumFractionDigits:2}).format(+n);}catch(e){return (c+" ")+(+n).toLocaleString(undefined,{maximumFractionDigits:2});} }
+const esc=(s)=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const actor=()=>HCR.settings.signName||"Operator";
+// The signature line in a stored vendor query is rendered live from Settings, so
+// changing the operator name in Settings updates every query without a re-run.
+function applySignature(raw){ if(!raw)return raw||""; const name=actor(); return raw.replace(/(Kind regards,\s*\n)[\s\S]*$/, (m,p1)=>p1+name); }
+const nowISO=()=>new Date().toISOString();
+const AVG_MIN=18;
+const HIDDEN=["Superseded","Archived"];
+const ATP="__AIRTABLE_PREFIX__"; // build-dashboard fills this with the lead's Airtable MCP prefix, e.g. mcp__<server>__
+
+async function callMcp(n,a){ const r=await window.cowork.callMcpTool(n,a); if(r&&r.isError)throw new Error((r.content&&r.content[0]&&r.content[0].text)||"MCP error"); return r.structuredContent ?? (r.content&&r.content[0]&&JSON.parse(r.content[0].text)) ?? r; }
+
+async function hcrLoad(){
+  errClear();
+  if(!(window.cowork&&window.cowork.callMcpTool)){ loadSample(); return; }
+  try{ setSrc("reading Airtable...");
+    const bl=await callMcp(ATP+"list_bases",{}); let cand=(bl.bases||bl.results||[]).slice();
+    cand.sort((a,b)=>((/cost reconc/i.test(b.name||"")?1:0)-(/cost reconc/i.test(a.name||"")?1:0)));
+    let matches=[];
+    for(const b of cand){ const id=b.id||b.baseId; if(!id)continue; try{ const tr=await callMcp(ATP+"list_tables_for_base",{baseId:id}); const t=tr.tables||tr||[]; const nm=t.map(x=>(x.name||"").toLowerCase());
+      if(nm.includes("reconciliations")&&nm.includes("line items")){ const li=t.find(x=>(x.name||"").toLowerCase()==="line items"); const rel=!!(li&&(li.fields||[]).some(f=>(f.name||"").toLowerCase()==="reconciliation"&&f.type==="multipleRecordLinks")); matches.push({id,ts:t,rel}); } }catch(e){} }
+    // prefer a RELATIONAL base (Line Items.Reconciliation is a real link) so a legacy text base never clashes
+    const pick = matches.find(m=>m.rel) || matches[0];
+    let baseId = pick && pick.id, ts = (pick && pick.ts) || [];
+    if(!baseId)throw new Error("Couldn't find a base with the Reconciliations and Line Items tables. Make sure the Cost Reconciliation base exists and is shared with the Airtable connector.");
+    HCR.fmap={}; ts.forEach(t=>{ const m={}; (t.fields||[]).forEach(f=>{ m[f.name]=f.id||f.fieldId; }); HCR.fmap[t.name]=m; });
+    const tid=(n)=>{const t=ts.find(t=>(t.name||"").toLowerCase()===n.toLowerCase());return t&&(t.id||t.tableId);};
+    HCR._baseId=baseId; HCR._reconTid=tid("Reconciliations"); HCR._evTid=tid("Events"); HCR._setTid=tid("Settings");
+    const [recs,lines,vends,setts,evs,rates]=await Promise.all([la(baseId,tid("Reconciliations")),la(baseId,tid("Line Items")),la(baseId,tid("Vendors")),la(baseId,tid("Settings")),la(baseId,tid("Events")),la(baseId,tid("Rate Lines"))]);
+    HCR.settings=mapSet(setts);
+    const lb={}; lines.map(mapLine).forEach(l=>{(lb[l.recon]=lb[l.recon]||[]).push(l);});
+    const eb={}; evs.map(mapEv).forEach(e=>{(eb[e.recon]=eb[e.recon]||[]).push(e);});
+    HCR.recons=recs.map(r=>mapRec(r,lb,eb));
+    HCR.rates=rates.map(mapRate); const rc={}; HCR.rates.forEach(x=>{rc[x.vendor]=(rc[x.vendor]||0)+1;});
+    HCR.vendors=vends.map(v=>{const nm=txt(cell(v,"Vendors","Vendor Name"));return {name:nm,rateCount:rc[nm]||0};});
+    HCR.live=true; setSrc("live - Airtable"); document.getElementById("demoBanner").classList.add("hidden"); renderAll();
+  }catch(e){ errShow(e.message||String(e)); setSrc("not connected"); if(!HCR.recons.length)loadSample(); }
+}
+async function la(baseId,tableId){ if(!tableId)return[]; const out=[]; let off; do{ const r=await callMcp(ATP+"list_records_for_table",off?{baseId,tableId,offset:off}:{baseId,tableId}); (r.records||r||[]).forEach(x=>out.push(x)); off=r.offset; }while(off&&out.length<3000); return out; }
+// The connector is FIELD-ID based: reads come back as {cellValuesByFieldId:{fldId:value}},
+// selects as {id,name,color} objects; writes must be keyed by fldId. fid/cell/wf bridge that.
+function fid(table,name){ const m=HCR.fmap[table]; return m&&m[name]; }
+function cell(rec,table,name){ if(rec&&rec.cellValuesByFieldId){ const id=fid(table,name); return id?rec.cellValuesByFieldId[id]:undefined; } if(rec&&rec.fields) return rec.fields[name]; return rec?rec[name]:undefined; }
+function wf(table,obj){ const out={}; for(const k in obj){ const id=fid(table,k); if(id!=null) out[id]=obj[k]; } return out; }
+const txt=(v)=>Array.isArray(v)?v.map(x=>(x&&x.name)||x).join(", "):(v&&typeof v==="object"&&"name" in v?v.name:(v==null?"":v));
+const arr=(v)=>Array.isArray(v)?v.map(x=>(x&&x.name)||x):(v&&typeof v==="object"&&"name" in v?[v.name]:(v?String(v).split(", ").filter(Boolean):[]));
+function mapSet(rows){ const r=rows[0]; if(!r)return{currency:"GBP",signName:"",company:""}; HCR._setRec=r.id; const G=(n)=>cell(r,"Settings",n); return {currency:txt(G("Default Currency"))||"GBP",signName:G("Operator Name")||"",company:G("Company")||""}; }
+function mapRec(rec,lb,eb){ const G=(n)=>cell(rec,"Reconciliations",n); const id=G("Recon ID")||rec.id; return {id,recId:rec.id,status:txt(G("Status"))||"Unverified",stage:txt(G("Stage"))||"New",version:+G("Version")||1,jobKey:G("Job Key")||"",wo:txt(G("Job / WO Ref")),vendor:txt(G("Vendor")),type:txt(G("Job Type"))||"",inv:G("Invoice No")||"",date:G("Invoice Date")||"",currency:txt(G("Currency"))||null,total:+G("Invoice Total")||0,po:(G("PO Total")==null?null:+G("PO Total")),queried:+G("Value Queried")||0,exceptions:+G("Exceptions")||0,coverage:arr(G("Coverage")),docs:txt(G("Docs Present")),summary:G("Verification Summary")||"",query:G("Vendor Query Draft")||"",lines:(lb[id]||[]),events:(eb[id]||[])}; }
+function mapLine(r){ const G=(n)=>cell(r,"Line Items",n); return {recon:txt(G("Reconciliation")),d:G("Description")||"",q:G("Qty / Hours"),billed:+G("Amount")||0,exp:G("Expected Rate"),rate:txt(G("Rate Check"))||"N/A",reality:txt(G("Reality Check"))||"N/A",auth:txt(G("Authorization Check"))||"N/A",verdict:txt(G("Verdict"))||"Pass",why:G("Flag Reason")||""}; }
+function mapEv(r){ const G=(n)=>cell(r,"Events",n); return {recon:txt(G("Recon Ref")),type:txt(G("Type"))||"",detail:G("Detail")||"",actor:G("Actor")||"",at:G("At")||""}; }
+function mapRate(r){ const G=(n)=>cell(r,"Rate Lines",n); return {vendor:txt(G("Vendor")),trade:G("Description / Trade")||"",type:txt(G("Rate Type"))||"",band:txt(G("Band"))||"",unit:G("Unit")||"",rate:G("Rate")}; }
+
+// ---- writes (each logs an Actor-attributed Event) -------------------------
+async function updateRecon(recId,nameFields){ await callMcp(ATP+"update_records_for_table",{baseId:HCR._baseId,tableId:HCR._reconTid,records:[{id:recId,fields:wf("Reconciliations",nameFields)}]}); }
+async function logEvent(reconRef,type,detail){ if(!HCR._evTid)return; await callMcp(ATP+"create_records_for_table",{baseId:HCR._baseId,tableId:HCR._evTid,records:[{fields:wf("Events",{Event:type,"Recon Ref":reconRef,Type:type,Detail:detail,Actor:actor(),At:nowISO()})}]}); }
+
+async function hcrSetStage(id,stage,evType,opts){
+  const r=HCR.recons.find(x=>x.id===id); if(!r)return; const et=evType||stage;
+  let det=et+" by "+actor();
+  if(opts&&opts.override){ const n=opts.open||0; det="OVERRIDE - marked "+stage+" by "+actor()+" with "+n+" flag"+(n===1?"":"s")+" still open. Reason: "+((opts.reason||"").trim()||"(none given)"); }
+  const tt=opts&&opts.override?("Overridden - "+stage):et;
+  if(!HCR.live){ r.stage=stage; r.events.push({type:et,detail:det+" (sample)",actor:actor(),at:nowISO()}); toast(tt); renderAll(); if(stage==="Archived")hcrClose(); else hcrOpen(id); return; }
+  try{ setSrc("updating..."); await updateRecon(r.recId,{Stage:stage}); await logEvent(r.id,et,det); r.stage=stage; r.events.push({type:et,detail:det,actor:actor(),at:nowISO()}); toast(tt); renderAll(); if(stage==="Archived")hcrClose(); else hcrOpen(id); }
+  catch(e){ errShow("Couldn't update: "+(e.message||e)); } finally{ setSrc("live - Airtable"); }
+}
+async function hcrBulk(stage){ const ids=[...HCR.sel]; if(!ids.length)return; let skip=0;
+  for(const id of ids){ const r=HCR.recons.find(x=>x.id===id);
+    if((stage==="Sent to finance"||stage==="Resolved")&&r&&r.status!=="Verified"){ skip++; continue; }
+    await hcrSetStage(id,stage); }
+  hcrClearSel(); if(skip)toast(skip+" still flagged - open each to re-run or override");
+}
+// Resolving / sending a not-yet-verified invoice is a deliberate choice: re-run with a
+// revised invoice, or override the flags (recorded; Status stays Flagged, never re-verified).
+function hcrMark(id,stage){ const r=HCR.recons.find(x=>x.id===id); if(!r)return; if(r.status==="Verified")hcrSetStage(id,stage); else hcrResolveFlagged(id,stage); }
+function hcrResolveFlagged(id,stage){
+  const r=HCR.recons.find(x=>x.id===id); if(!r)return; const n=r.lines.filter(l=>l.verdict==="Query"||l.verdict==="Unverified").length; const verb=stage==="Sent to finance"?"send to finance":"resolve";
+  document.getElementById("modal").innerHTML=`<button class="x" style="float:right" onclick="hcrHelpClose()">&times;</button>
+   <h3>${esc(r.wo)} hasn't reconciled</h3><div class="meta">${n} line${n===1?"":"s"} still flagged${r.queried?" ("+money(r.queried,r.currency)+" under query)":""}. How do you want to ${verb} it?</div>
+   <div style="margin-top:16px">
+     <button class="btn" style="width:100%" onclick="hcrHelpClose();hcrReRun('${id}')">Upload a revised invoice &mdash; re-run &amp; supersede</button>
+     <div class="cvg" style="text-align:center;margin:10px 0">&mdash; or &mdash;</div>
+     <label class="cvg" style="display:block;margin-bottom:5px">Override the flags &amp; ${verb} anyway. Reason (recorded in the audit trail):</label>
+     <textarea id="ovrReason" class="qedit" style="min-height:64px" placeholder="e.g. vendor confirmed by phone; within tolerance; accepted as-is"></textarea>
+     <button class="btn ghost" style="width:100%;margin-top:8px;color:var(--f);border-color:var(--f)" onclick="hcrOverride('${id}','${stage}')">Override &amp; mark ${esc(stage).toLowerCase()}</button>
+   </div>
+   <div class="cvg" style="margin-top:12px">Overriding does <b>not</b> change the line checks or verify the invoice &mdash; it records that you accepted it despite the open flags. The status stays <b>Flagged</b>.</div>`;
+  document.getElementById("mscrim").classList.add("open"); document.getElementById("modal").classList.add("open");
+}
+function hcrOverride(id,stage){ const r=HCR.recons.find(x=>x.id===id); if(!r)return; const reason=(document.getElementById("ovrReason")||{}).value||""; const open=r.lines.filter(l=>l.verdict==="Query"||l.verdict==="Unverified").length; hcrHelpClose(); hcrSetStage(id,stage,stage,{override:true,reason,open}); }
+async function hcrSaveQuery(id){
+  const r=HCR.recons.find(x=>x.id===id); const ta=document.getElementById("qEdit"); if(!r||!ta)return; const t=ta.value;
+  if(!HCR.live){ r.query=t; toast("Query saved (sample)"); return; }
+  try{ setSrc("saving..."); await updateRecon(r.recId,{"Vendor Query Draft":t}); await logEvent(r.id,"Document added","Vendor query edited by "+actor()); r.query=t; toast("Query saved"); }
+  catch(e){ errShow("Couldn't save: "+(e.message||e)); } finally{ setSrc("live - Airtable"); }
+}
+async function hcrSaveSettings(){
+  const s={currency:(document.getElementById("setCcy").value||"GBP").trim(),signName:document.getElementById("setName").value.trim(),company:document.getElementById("setCo").value.trim()};
+  HCR.settings=s;
+  if(!HCR.live){ toast("Settings saved (sample)"); renderAll(); return; }
+  try{ setSrc("saving..."); const fields=wf("Settings",{"Default Currency":s.currency,"Operator Name":s.signName,"Company":s.company});
+    if(HCR._setRec) await callMcp(ATP+"update_records_for_table",{baseId:HCR._baseId,tableId:HCR._setTid,records:[{id:HCR._setRec,fields}]});
+    else { const cr=await callMcp(ATP+"create_records_for_table",{baseId:HCR._baseId,tableId:HCR._setTid,records:[{fields}]}); HCR._setRec=(cr.records&&cr.records[0]&&cr.records[0].id)||null; }
+    toast("Settings saved"); renderAll();
+  }catch(e){ errShow("Couldn't save settings: "+(e.message||e)); } finally{ setSrc("live - Airtable"); }
+}
+// Reconciliation runs in CHAT (that's where invoices are attached and the skill runs).
+// In a persisted artifact sendPrompt isn't available, so we show the exact message to
+// paste + a copy button. If a runtime ever injects sendPrompt, we use it directly.
+function hcrChatPrompt(title,intro,prompt){
+  if(window.sendPrompt){ sendPrompt(prompt); return; }
+  document.getElementById("modal").innerHTML=`<button class="x" style="float:right" onclick="hcrHelpClose()">&times;</button>
+   <h3>${title}</h3><div class="meta">${intro}</div>
+   <div class="query" style="margin-top:12px" id="cpMsg">${esc(prompt)}</div>
+   <div class="row-actions"><button class="btn" onclick="hcrCopyMsg()">Copy message</button><button class="btn ghost" onclick="hcrHelpClose()">Close</button></div>`;
+  document.getElementById("mscrim").classList.add("open"); document.getElementById("modal").classList.add("open");
+}
+function hcrCopyMsg(){ const t=(document.getElementById("cpMsg")||{}).textContent||""; navigator.clipboard&&navigator.clipboard.writeText(t); toast("Message copied - paste it into the chat"); }
+function hcrReRun(id){ const r=HCR.recons.find(x=>x.id===id); hcrChatPrompt("Re-run with a revised invoice","Go to the Cowork chat, attach the revised invoice, and send this message. It supersedes the current version; the new result appears here when you hit Refresh.",`Re-run reconciliation for ${r?r.wo:""} (${r?r.inv:""}) with the revised invoice I'm attaching - supersede the current version.`); }
+function hcrReconcileNew(){ hcrChatPrompt("Reconcile a new invoice","Reconciliation runs in the chat, because that's where you attach the files. Go to the Cowork chat, attach the invoice plus any quote, PO, or job sheet, and send this message. It verifies and writes the result here - hit Refresh to see it.","Reconcile this invoice against our rate card and job docs. I'm attaching the invoice (and any quote, PO, or job sheet) - run the invoice-reconciliation skill and write the result to Airtable."); }
+
+// ---- state / coverage helpers --------------------------------------------
+// Status (verification result) and Stage (workflow position) are shown SEPARATELY:
+// a colored Status chip + a distinct grey Stage badge.
+const SC={Verified:["v","Verified"],Flagged:["f","Flagged"],Unverified:["u","Unverified"]};
+function statusChip(s){ const m=SC[s]||["u",s||"-"]; return `<span class="chip ${m[0]}">${m[1]}</span>`; }
+function stageBadge(st){ return (st&&st!=="New")?`<span class="stbadge">${st}</span>`:""; }
+const COV=["Price","Reality","Authorization","Internal"];
+function checked(cov){ const ext=["Price","Reality","Authorization"]; const n=(cov||[]).filter(c=>ext.includes(c)).length; if(n>=3)return '<span class="cvg" title="Price, Reality, Authorization">Fully checked</span>'; if(n>=1)return '<span class="cvg" title="'+(cov||[]).join(", ")+'">Partly checked</span>'; return '<span class="cvg" title="Only internal consistency">Not yet verified</span>'; }
+function covWords(cov){ const ran=(cov||[]); const not=COV.filter(c=>!ran.includes(c)); return '<b>What we checked:</b> '+(ran.length?ran.join(", "):"nothing yet")+(not.length?'. <span style="color:var(--mut)">Not checked: '+not.join(", ")+'.</span>':"."); }
+
+// ---- KPIs -----------------------------------------------------------------
+function visible(){ return HCR.recons.filter(r=>!HIDDEN.includes(r.stage)); }
+function renderKpis(){ const rs=visible(); const cc=dispCcy(); let q=0,ver=0,exc=0,fl=0,un=0,other=0; const bt={Rate:0,Reality:0,Auth:0};
+  // Money KPIs sum only the display currency's records (never mix currencies); other
+  // currencies are counted and flagged in the sub-line so the total stays honest.
+  rs.forEach(r=>{ const rc=r.currency||cc; if(rc===cc){ q+=r.queried; if(r.status==="Verified")ver+=(r.total-r.queried); } else if(r.currency) other++;
+    if(r.status==="Flagged")fl++; if(r.status==="Unverified")un++; exc+=r.exceptions; r.lines.forEach(l=>{if(l.rate==="Flag")bt.Rate++;if(l.reality==="Flag")bt.Reality++;if(l.auth==="Flag")bt.Auth++;}); });
+  const n=rs.length, v=rs.filter(r=>r.status==="Verified").length;
+  const ccyNote=other?` &middot; ${cc} only (+${other} in other currencies)`:"";
+  document.getElementById("kpis").innerHTML=`
+   <div class="kpi money"><div class="label">Flagged for query</div><div class="value">${money(q,cc)}</div><div class="sub">${exc} line(s) need a vendor query${ccyNote}</div></div>
+   <div class="kpi hero"><div class="label">Value verified</div><div class="value">${money(ver,cc)}</div><div class="sub">reconciled &amp; ready for finance${ccyNote}</div></div>
+   <div class="kpi"><div class="label">Invoices processed</div><div class="value">${n}</div><div class="sub">${v} verified &middot; ${fl} flagged &middot; ${un} unverified</div></div>
+   <div class="kpi"><div class="label">Est. time saved</div><div class="value">${n*AVG_MIN} min</div><div class="sub">~${AVG_MIN} min/invoice by hand</div></div>`;
+  const totF=bt.Rate+bt.Reality+bt.Auth, pc=x=>totF?Math.round(x/totF*100):0;
+  document.getElementById("strip").innerHTML=`
+   <div class="mini"><div class="label">Exceptions caught</div><div class="value">${exc}</div></div>
+   <div class="mini"><div class="label">% invoices flagged</div><div class="value">${n?Math.round(fl/n*100):0}%</div></div>
+   <div class="mini"><div class="label">Flagged reasons<span class="q-ic" onclick="hcrHelp()">?</span></div>${totF?`<div class="fr"><div><b>${pc(bt.Rate)}%</b> Price</div><div><b>${pc(bt.Reality)}%</b> Reality</div><div><b>${pc(bt.Auth)}%</b> Auth</div></div>`:`<div class="cvg" style="margin-top:8px">No flags yet</div>`}</div>
+   <div class="mini"><div class="label">Awaiting docs/invoice</div><div class="value">${rs.filter(r=>r.status==="Unverified"||r.stage==="Awaiting invoice").length}</div></div>`;
+}
+function dispCcy(){ const c={}; visible().forEach(r=>{if(r.currency)c[r.currency]=(c[r.currency]||0)+1;}); return Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||HCR.settings.currency||"GBP"; }
+
+// ---- queue ----------------------------------------------------------------
+const FILTERS=["All","Flagged","Verified","Unverified","Awaiting invoice","Sent to finance"];
+function renderFilters(){ document.getElementById("filters").innerHTML=FILTERS.map(f=>`<button class="fbtn ${HCR.filter===f?'on':''}" onclick="hcrFilter('${f}')">${f}</button>`).join(""); }
+function rowsForView(){ const arch=document.getElementById("showArch")&&document.getElementById("showArch").checked; let l=HCR.recons.filter(r=> arch ? true : !HIDDEN.includes(r.stage)); if(HCR.filter!=="All")l=l.filter(r=>r.status===HCR.filter||r.stage===HCR.filter); return l.slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||""))); }
+function renderQueue(){
+  const list=rowsForView(); const tb=document.getElementById("queue");
+  if(!list.length){ tb.innerHTML=`<tr><td colspan="8" style="text-align:center;color:var(--mut);padding:28px">No invoices in this view.</td></tr>`; renderBulk(); return; }
+  tb.innerHTML=list.map(r=>{
+    return `<tr><td class="sel"><input type="checkbox" class="qcheck" ${HCR.sel.has(r.id)?"checked":""} onclick="event.stopPropagation();hcrSel('${r.id}',this.checked)"></td>
+     <td class="clk" onclick="hcrOpen('${r.id}')">${statusChip(r.status)}${stageBadge(r.stage)}${r.version>1?` <span class="cvg">v${r.version}</span>`:""}</td>
+     <td class="clk" onclick="hcrOpen('${r.id}')"><b>${esc(r.wo)}</b></td><td class="clk" onclick="hcrOpen('${r.id}')">${esc(r.vendor)}</td>
+     <td class="clk" onclick="hcrOpen('${r.id}')">${esc(r.inv)||"&mdash;"}</td><td class="clk" onclick="hcrOpen('${r.id}')">${checked(r.coverage)}</td>
+     <td class="num clk" onclick="hcrOpen('${r.id}')">${money(r.total,r.currency)}</td>
+     <td class="num clk ${r.queried?'qd':''}" onclick="hcrOpen('${r.id}')">${r.queried?money(r.queried,r.currency):"&mdash;"}</td></tr>`; }).join("");
+  renderBulk();
+}
+function hcrSel(id,on){ if(on)HCR.sel.add(id); else HCR.sel.delete(id); renderBulk(); }
+function hcrSelAll(on){ const list=rowsForView(); if(on)list.forEach(r=>HCR.sel.add(r.id)); else HCR.sel.clear(); renderQueue(); }
+function hcrClearSel(){ HCR.sel.clear(); const s=document.getElementById("selAll"); if(s)s.checked=false; renderQueue(); }
+function renderBulk(){ const n=HCR.sel.size, b=document.getElementById("bulkbar"); b.classList.toggle("hidden",!n); document.getElementById("bulkn").textContent=n+" selected"; }
+function renderAll(){ renderKpis(); renderFilters(); renderQueue(); renderSettings(); }
+
+// ---- drill-in -------------------------------------------------------------
+function ckCls(v){return {Pass:"p",Flag:"f",Unverified:"u","N/A":"na"}[v]||"na";}
+function expFmt(v,c){ if(v==null||v===""||v==="\u2014")return "&mdash;"; const n=Number(v); return isNaN(n)?esc(v):money(n,c); }
+function hcrOpen(id){
+  const r=HCR.recons.find(x=>x.id===id); if(!r)return; const c=r.currency;
+  const queried=r.lines.filter(l=>l.verdict==="Query"||l.verdict==="Unverified");
+  const verified=r.status==="Verified";                                            // true reconciliation - set by the engine, never by a dashboard button
+  const overridden=!verified&&(r.stage==="Resolved"||r.stage==="Sent to finance");  // a person accepted it despite open flags
+  const vbox=verified
+    ? `<div class="verdict p">Ready for finance<div class="vsub">All lines reconcile &mdash; cleared for payment of ${money(r.total,c)}.</div></div>`
+    : overridden
+    ? `<div class="verdict f">${esc(r.stage)} by override<div class="vsub">Marked ${esc(r.stage).toLowerCase()} with ${queried.length} flag${queried.length===1?"":"s"} still open (${money(r.queried,c)} of ${money(r.total,c)}). The line checks were not changed and the invoice was not verified &mdash; this is a manual override, recorded in the audit trail.</div></div>`
+    : r.status==="Unverified"
+    ? `<div class="verdict f">Not verified<div class="vsub">${queried.length||"Some"} line${queried.length===1?"":"s"} couldn't be checked &mdash; a key document is missing. Not cleared for payment.</div></div>`
+    : queried.length
+    ? `<div class="verdict f">Hold &mdash; ${queried.length} open quer${queried.length===1?"y":"ies"}<div class="vsub">${money(r.queried,c)} under query of ${money(r.total,c)} invoiced. Not cleared for full payment.</div></div>`
+    : `<div class="verdict f">Flagged &mdash; needs review<div class="vsub">Flagged on an invoice-level check (e.g. the line total doesn't match the invoice) &mdash; no single line is queried. See the summary below. Not cleared for full payment.</div></div>`;
+  const qlist=queried.length?`<ul class="qlist">${queried.map(l=>`<li><b>${esc(l.d)}</b> &mdash; ${esc(l.why||l.verdict)}${overridden?' <span class="cvg">(overridden, not corrected)</span>':''}</li>`).join("")}</ul>`:(verified?`<div style="color:var(--v);margin-top:8px">All lines reconcile.</div>`:`<div style="color:var(--f);margin-top:8px">Flagged on an invoice-level check &mdash; see the Summary. No individual line is queried.</div>`);
+  const lrows=r.lines.map(l=>`<tr><td>${esc(l.d)}</td><td>${esc(l.q==null?"":l.q)}</td><td class="num">${money(l.billed,c)}</td><td class="num">${expFmt(l.exp,c)}</td><td><span class="ck ${ckCls(l.rate)}">${l.rate}</span></td><td><span class="ck ${ckCls(l.reality)}">${l.reality}</span></td><td><span class="ck ${ckCls(l.auth)}">${l.auth}</span></td><td><b style="color:${l.verdict==='Pass'?'var(--v)':l.verdict==='Query'?'var(--f)':'var(--mut)'}">${l.verdict}</b></td></tr>`).join("");
+  const sib=HCR.recons.filter(x=>x.jobKey&&r.jobKey&&x.jobKey===r.jobKey).sort((a,b)=>(b.version||1)-(a.version||1));
+  const p=document.getElementById("panel");
+  p.innerHTML=`<div class="ph"><div style="flex:1;min-width:0">${statusChip(r.status)}${stageBadge(r.stage)}${r.version>1?` <span class="cvg">v${r.version}</span>`:""}
+     <h2>${esc(r.wo)} &middot; ${esc(r.vendor)}</h2><div class="meta">${esc(r.inv)} &middot; ${money(r.total,c)} &middot; ${esc(r.type)} job &middot; docs: ${esc(r.docs)||"&mdash;"}</div></div>
+     <div class="ph-actions"><button class="fs" onclick="hcrFull()" id="fsBtn">Full screen</button><button class="x" onclick="hcrClose()">&times;</button></div></div>
+   <div class="pbody">
+     ${vbox}
+     <div class="sec"><h4>What needs your attention</h4>${qlist}<div class="cover" style="margin-top:12px">${covWords(r.coverage)}</div></div>
+     ${r.summary?`<div class="sec"><h4>Summary</h4><div class="cover">${esc(r.summary)}</div></div>`:""}
+     <div class="sec"><h4>Line-by-line check <span class="q-ic" onclick="hcrHelp()">?</span></h4>
+       <table><thead><tr><th>Line</th><th>Qty</th><th class="num">Billed</th><th class="num">Expected</th><th>Rate</th><th>Reality</th><th>Auth</th><th>Verdict</th></tr></thead><tbody>${lrows}</tbody></table>
+       <div class="cvg" style="margin-top:8px">Rate = price vs your rate card/quote. Reality = time/parts vs the job sheet. Auth = within the approved quote/PO.</div></div>
+     ${(r.query||queried.length)?`<div class="sec"><h4>Vendor query (editable)</h4><textarea class="qedit" id="qEdit">${esc(applySignature(r.query))}</textarea>
+       <div class="row-actions"><button class="btn ghost" onclick="hcrSaveQuery('${r.id}')">Save query</button><button class="btn ghost" onclick="hcrCopyQuery()">Copy</button></div></div>`
+       :`<div class="sec"><h4>Vendor query</h4><div class="cover" style="color:var(--mut)">No query needed &mdash; fully reconciled.</div></div>`}
+     <div class="sec"><h4>Verified pack</h4><div class="row-actions"><button class="btn" onclick="hcrPack('${r.id}')">Download pack (PDF)</button></div></div>
+     <div class="sec"><h4>Actions</h4>${r.stage==="Archived"
+       ? `<div class="row-actions"><button class="btn" onclick="hcrSetStage('${r.id}','New','Restored')">Unarchive (restore to active)</button></div><div class="cvg" style="margin-top:8px">Restoring returns it to the active queue at "New"; the archive and the restore are both kept in the audit trail.</div>`
+       : `<div class="row-actions"><button class="btn ghost" onclick="hcrReRun('${r.id}')">Re-run (revised invoice)</button><button class="btn ghost" onclick="hcrMark('${r.id}','Sent to finance')">Mark sent to finance</button><button class="btn ghost" onclick="hcrSetStage('${r.id}','Queried')">Mark query sent</button><button class="btn ghost" onclick="hcrMark('${r.id}','Resolved')">Mark resolved</button><button class="btn ghost" style="color:var(--f)" onclick="hcrSetStage('${r.id}','Archived')">Archive</button></div><div class="cvg" style="margin-top:8px">Records are never deleted &mdash; Archive hides it (kept for audit); a revised invoice supersedes the old version. Resolving a flagged invoice needs a revised invoice or a recorded override.</div>`}</div>
+     ${sib.length>1?`<div class="sec"><h4>Versions (${sib.length})</h4><ul style="margin:0;padding-left:18px">${sib.map(x=>`<li><a href="#" onclick="hcrOpen('${x.id}');return false;">v${x.version||1}</a> &middot; ${esc(x.stage||"New")} &middot; ${esc(x.status)}${x.id===r.id?" <b>(this)</b>":""}</li>`).join("")}</ul></div>`:""}
+     ${r.events.length?`<div class="sec"><h4>Audit trail (${r.events.length})</h4><ul style="margin:0;padding-left:18px">${r.events.slice().reverse().map(e=>`<li><b>${esc(e.type)}</b> &mdash; ${esc(e.detail)} <span class="cvg">${esc(String(e.at).replace("T"," ").slice(0,16))}${e.actor?" &middot; "+esc(e.actor):""}</span></li>`).join("")}</ul></div>`:""}
+   </div>`;
+  p.classList.add("open"); document.getElementById("scrim").classList.add("open");
+}
+function hcrFull(){ const p=document.getElementById("panel"); p.classList.toggle("full"); const b=document.getElementById("fsBtn"); if(b)b.textContent=p.classList.contains("full")?"Exit full screen":"Full screen"; }
+function hcrClose(){ const p=document.getElementById("panel"); p.classList.remove("open","full"); document.getElementById("scrim").classList.remove("open"); }
+function hcrCopyQuery(){ const t=(document.getElementById("qEdit")||{}).value||""; navigator.clipboard&&navigator.clipboard.writeText(t); toast("Vendor query copied"); }
+
+const PACK_STYLE='body{font-family:-apple-system,Segoe UI,Arial,sans-serif;color:#1a2230;max-width:760px;margin:30px auto;padding:0 20px;font-size:14px;line-height:1.5}h1{font-size:20px;margin:0 0 4px}h3{margin:18px 0 6px;font-size:15px}.m{color:#667}table{width:100%;border-collapse:collapse;margin:14px 0}th,td{border-bottom:1px solid #e6e9ee;padding:8px;text-align:left;font-size:13px;vertical-align:top}th{font-size:11px;text-transform:uppercase;color:#667}.q{background:#fafbfc;border:1px solid #e6e9ee;border-radius:8px;padding:12px;white-space:pre-wrap}';
+function hcrPack(id){
+  const r=HCR.recons.find(x=>x.id===id); if(!r)return; const c=r.currency, s=HCR.settings; const qy=applySignature(r.query);
+  const verified=r.status==="Verified"; const overridden=!verified&&(r.stage==="Resolved"||r.stage==="Sent to finance");
+  const queried=r.lines.filter(l=>l.verdict==="Query"||l.verdict==="Unverified"); const undis=r.total-(r.queried||0);
+  const banner=verified?`<div style="background:#e7f5ec;border:1px solid #b8e4cb;color:#1a7f4b;padding:10px 14px;border-radius:8px;font-weight:600">VERIFIED &mdash; cleared for payment of ${money(r.total,c)}</div>`
+    :`<div style="background:#fdf0e6;border:1px solid #f3d3b3;color:#8a4b08;padding:10px 14px;border-radius:8px;font-weight:600">${overridden?"OVERRIDDEN ("+esc(r.stage)+") &mdash; accepted despite ":"PROVISIONAL &mdash; "}${queried.length} open quer${queried.length===1?"y":"ies"}, ${money(r.queried||0,c)} under query. Not verified.${r.po!=null?" Undisputed: "+money(undis,c)+".":""}</div>`;
+  const rows=r.lines.map(l=>`<tr><td>${esc(l.d)}</td><td>${esc(l.q==null?"":l.q)}</td><td style="text-align:right">${money(l.billed,c)}</td><td>${l.rate}</td><td>${l.reality}</td><td>${l.auth}</td><td><b>${l.verdict}</b>${l.why?`<br><span style="color:#667">${esc(l.why)}</span>`:""}</td></tr>`).join("");
+  const content=`<h1>Cost reconciliation pack</h1><div class="m">${esc(r.vendor)} &middot; Invoice ${esc(r.inv)} &middot; ${esc(r.type)} job &middot; WO ${esc(r.wo)}</div>
+   <div style="margin:14px 0">${banner}</div>
+   <table><thead><tr><th>Line</th><th>Qty</th><th style="text-align:right">Billed</th><th>Rate</th><th>Reality</th><th>Auth</th><th>Verdict</th></tr></thead><tbody>${rows}</tbody></table>
+   <p><b>Invoice total:</b> ${money(r.total,c)}${r.po!=null?" &nbsp; <b>PO authorised:</b> "+money(r.po,c):""}${r.queried?" &nbsp; <b>Under query:</b> "+money(r.queried,c):""}</p>
+   <h3>Summary</h3><div class="m">${esc(r.summary)}</div>${qy?`<h3>Vendor query</h3><div class="q">${esc(qy)}</div>`:""}
+   ${s.signName?`<p class="m" style="margin-top:18px">Prepared by: ${esc(s.signName)}${s.company?", "+esc(s.company):""}</p>`:""}`;
+  HCR._pack={title:"Cost reconciliation pack - "+(r.wo||r.id),filename:"recon-pack-"+String(r.wo||r.id).replace(/[^A-Za-z0-9_-]+/g,"_")+".html",content};
+  document.getElementById("packBody").innerHTML='<div class="packdoc">'+content+'</div>';
+  document.getElementById("packov").classList.add("open");
+}
+function hcrPackClose(){ document.getElementById("packov").classList.remove("open"); }
+function hcrPackPrint(){ try{ window.print(); }catch(e){ toast("Printing was blocked - use Download (HTML) instead"); } }
+function hcrPackDownload(){ const p=HCR._pack; if(!p)return;
+  try{ const doc='<!DOCTYPE html><html><head><meta charset="utf-8"><title>'+esc(p.title)+'</title><style>'+PACK_STYLE+'</style></head><body>'+p.content+'</body></html>';
+    const url=URL.createObjectURL(new Blob([doc],{type:"text/html"})); const a=document.createElement("a"); a.href=url; a.download=p.filename; document.body.appendChild(a); a.click();
+    setTimeout(()=>{try{URL.revokeObjectURL(url);a.remove();}catch(e){}},1500); toast("Pack downloaded - open it, then Print to PDF");
+  }catch(e){ toast("Download was blocked here - use Print / Save as PDF"); } }
+
+// ---- help / glossary ------------------------------------------------------
+function hcrHelp(){
+  document.getElementById("modal").innerHTML=`<button class="x" style="float:right" onclick="hcrHelpClose()">&times;</button>
+   <h3>What these terms mean</h3><div class="meta">A quick guide. For anything else, ask Claude in chat.</div>
+   <dl class="gl">
+    <dt>Status</dt><dd><b>Verified</b> = everything checked out. <b>Flagged</b> = at least one line needs a vendor query. <b>Missing docs / Unverified</b> = we couldn't check it (a key document wasn't provided).</dd>
+    <dt>Stage</dt><dd>Where it is in your workflow: New, Query sent, Sent to finance, Resolved, Awaiting invoice (a doc arrived before its invoice), Archived (hidden), Superseded (replaced by a newer version).</dd>
+    <dt>Checked / Coverage</dt><dd>Which checks we were able to run: <b>Fully checked</b> = price, reality and authorization all ran; <b>Partly checked</b> = some ran; <b>Not yet verified</b> = only the invoice's own maths.</dd>
+    <dt>Rate</dt><dd>The billed price vs your <b>rate card</b> (or the quote).</dd>
+    <dt>Reality</dt><dd>The billed time, parts and mileage vs the <b>job sheet / service report</b> (what actually happened on site).</dd>
+    <dt>Authorization (Auth)</dt><dd>Whether the line is within the <b>approved quote / PO</b>.</dd>
+    <dt>Under query</dt><dd>The total value of the lines we've flagged for the vendor to clarify before payment.</dd>
+   </dl>
+   <div class="row-actions"><button class="btn" onclick="hcrAskClaude()">Ask Claude a question</button><button class="btn ghost" onclick="hcrHelpClose()">Close</button></div>`;
+  document.getElementById("mscrim").classList.add("open"); document.getElementById("modal").classList.add("open");
+}
+function hcrHelpClose(){ document.getElementById("mscrim").classList.remove("open"); document.getElementById("modal").classList.remove("open"); }
+function hcrAskClaude(){ hcrHelpClose(); hcrChatPrompt("Ask Claude","Paste this into the Cowork chat to ask how the tool works.","Explain how the cost reconciliation tool works - what the Rate, Reality and Authorization checks mean, and how Status, Stage and Coverage are decided."); }
+
+// ---- settings + helpers ---------------------------------------------------
+function renderSettings(){ const s=HCR.settings; const set=(id,v)=>{const e=document.getElementById(id); if(e&&document.activeElement!==e)e.value=v||"";};
+  const sc=document.getElementById("setCcy"); if(sc&&document.activeElement!==sc){ const cur=s.currency||"GBP"; const opts=CURRENCIES.includes(cur)?CURRENCIES:[cur].concat(CURRENCIES); sc.innerHTML=opts.map(c=>`<option ${cur===c?"selected":""}>${esc(c)}</option>`).join(""); }
+  set("setName",s.signName); set("setCo",s.company);
+  document.getElementById("vendorRows").innerHTML=(HCR.vendors||[]).map(v=>`<tr><td><b>${esc(v.name)}</b></td><td class="num">${v.rateCount||0}</td></tr>`).join("")||`<tr><td colspan="2" style="color:var(--mut)">No vendors yet.</td></tr>`;
+  const rr=document.getElementById("rateRows"), rcEl=document.getElementById("rateCount"); if(rr){ const rl=(HCR.rates||[]).slice().sort((a,b)=>String(a.vendor).localeCompare(String(b.vendor))||String(a.trade).localeCompare(String(b.trade)));
+    rr.innerHTML=rl.length?rl.map(x=>`<tr><td>${esc(x.vendor)}</td><td>${esc(x.trade)}</td><td>${esc(x.type)}</td><td>${esc(x.band)||"&mdash;"}</td><td>${esc(x.unit)}</td><td class="num rt-rate">${x.rate==null||x.rate===""?"&mdash;":(x.unit==="%"?(+x.rate)+"%":money(x.rate,s.currency))}</td></tr>`).join(""):`<tr><td colspan="6" style="color:var(--mut)">No rate lines yet &mdash; load a rate card with the rate-card skill in chat.</td></tr>`;
+    if(rcEl)rcEl.textContent=rl.length?(rl.length+" rate line"+(rl.length===1?"":"s")):""; } }
+function hcrTab(t){ HCR.tab=t; document.getElementById("dash").classList.toggle("hidden",t!=="dash"); document.getElementById("set").classList.toggle("hidden",t!=="set"); document.getElementById("tabDash").classList.toggle("active",t==="dash"); document.getElementById("tabSet").classList.toggle("active",t==="set"); }
+function hcrFilter(f){ HCR.filter=f; renderFilters(); renderQueue(); }
+function setSrc(t){ document.getElementById("srcTag").textContent=t; }
+let tT; function toast(m){ const e=document.getElementById("toast"); e.textContent=m; e.classList.add("show"); clearTimeout(tT); tT=setTimeout(()=>e.classList.remove("show"),2200); }
+function errShow(m){ const e=document.getElementById("errBox"); e.innerHTML='<div class="err"></div>'; e.firstChild.textContent=m; }
+function errClear(){ document.getElementById("errBox").innerHTML=""; }
+
+function loadSample(){
+  document.getElementById("demoBanner").classList.remove("hidden"); setSrc("sample data");
+  HCR.settings={currency:"GBP",signName:"Jane Smith, Accounts Payable",company:"Acme Facilities"};
+  HCR.rates=[{vendor:"Apex Mechanical Services Ltd",trade:"HVAC Engineer (labour)",type:"Labour",band:"Normal",unit:"per hour",rate:68},{vendor:"Apex Mechanical Services Ltd",trade:"After-hours emergency call-out",type:"Call-out",band:"OOH",unit:"per visit",rate:145},{vendor:"Apex Mechanical Services Ltd",trade:"Parts markup (tier 1)",type:"Materials markup",band:"",unit:"%",rate:15},{vendor:"Brightwell Electrical Ltd",trade:"Electrician (labour)",type:"Labour",band:"Normal",unit:"per hour",rate:55},{vendor:"Brightwell Electrical Ltd",trade:"Mileage",type:"Travel",band:"",unit:"per mile",rate:0.45}];
+  const rcS={}; HCR.rates.forEach(x=>{rcS[x.vendor]=(rcS[x.vendor]||0)+1;});
+  HCR.vendors=[{name:"Apex Mechanical Services Ltd",rateCount:rcS["Apex Mechanical Services Ltd"]},{name:"Brightwell Electrical Ltd",rateCount:rcS["Brightwell Electrical Ltd"]}];
+  HCR.recons=[
+   {id:"REC-0001",recId:"r1",status:"Flagged",stage:"New",version:1,jobKey:"apex|wo-4471|inv-20431",wo:"WO-4471",vendor:"Apex Mechanical Services Ltd",type:"Quoted",inv:"INV-20431",date:"2026-06-12",currency:"GBP",total:965,po:723,queried:242,exceptions:2,coverage:["Price","Reality","Authorization","Internal"],docs:"Invoice, Service report, Quote, PO",summary:"Two lines queried: labour billed 5.0h vs 3.5h on the job sheet, and a 140 'additional sundries' line on neither the rate card, the job sheet, nor the quote/PO.",query:"Hi Apex, re INV-20431 (WO-4471): two lines need clarifying before we pass for payment - (1) labour is billed at 5.0h but the job sheet records 3.5h on site; (2) the additional sundries line isn't on the rate card, the job sheet, or the approved quote/PO. Could you confirm or correct? Thanks.",lines:[{d:"Labour - HVAC Engineer",q:"5.0 hrs",billed:340,exp:238,rate:"Pass",reality:"Flag",auth:"Flag",verdict:"Query",why:"Job sheet shows 3.5h on site; 1.5h (102) over"},{d:"Compressor capacitor",q:"1",billed:220,exp:null,rate:"N/A",reality:"Pass",auth:"Pass",verdict:"Pass",why:""},{d:"Refrigerant recharge",q:"1",billed:180,exp:null,rate:"N/A",reality:"Pass",auth:"Pass",verdict:"Pass",why:""},{d:"Standard call-out",q:"1",billed:85,exp:85,rate:"Pass",reality:"Pass",auth:"Pass",verdict:"Pass",why:""},{d:"Additional sundries",q:"1",billed:140,exp:null,rate:"Flag",reality:"Flag",auth:"Flag",verdict:"Query",why:"Not on rate card, job sheet, or quote/PO"}],events:[{type:"Created",detail:"Verification Flagged; 242 under query",actor:"Managed agent",at:"2026-06-12T10:00"}]},
+   {id:"REC-0002",recId:"r2",status:"Verified",stage:"Sent to finance",version:1,jobKey:"brightwell|wo-4480|inv-7782",wo:"WO-4480",vendor:"Brightwell Electrical Ltd",type:"Standing",inv:"INV-7782",date:"2026-06-13",currency:"GBP",total:210,po:null,queried:0,exceptions:0,coverage:["Price","Reality","Internal"],docs:"Invoice, Service report",summary:"All lines reconcile against the rate card and the job sheet. Ready to pay.",query:"",lines:[{d:"Labour - Electrician",q:"2.0 hrs",billed:110,exp:110,rate:"Pass",reality:"Pass",auth:"N/A",verdict:"Pass",why:""},{d:"Standard call-out",q:"1",billed:85,exp:85,rate:"Pass",reality:"Pass",auth:"N/A",verdict:"Pass",why:""},{d:"RCD device",q:"1",billed:15,exp:null,rate:"N/A",reality:"Pass",auth:"N/A",verdict:"Pass",why:""}],events:[{type:"Created",detail:"Verification Verified",actor:"Managed agent",at:"2026-06-13T09:10"},{type:"Sent to finance",detail:"Sent to finance by Jane Smith",actor:"Jane Smith",at:"2026-06-13T14:02"}]},
+   {id:"REC-0003",recId:"r3",status:"Unverified",stage:"New",version:1,jobKey:"apex|wo-4491|inv-20455",wo:"WO-4491",vendor:"Apex Mechanical Services Ltd",type:"Standing",inv:"INV-20455",date:"2026-06-14",currency:"EUR",total:153.10,po:null,queried:0,exceptions:0,coverage:["Price","Internal"],docs:"Invoice only",summary:"Rates match the card, but no job sheet / WO export was provided - time and mileage could not be verified.",query:"Hi Apex, re INV-20455 (WO-4491): could you send the signed job sheet or WO export so we can verify the 2.0h labour and 38 miles billed? Thanks.",lines:[{d:"Labour - HVAC Engineer",q:"2.0 hrs",billed:136,exp:136,rate:"Pass",reality:"Unverified",auth:"N/A",verdict:"Unverified",why:"No job sheet/WO export to verify hours"},{d:"Mileage",q:"38 mi",billed:17.10,exp:17.10,rate:"Pass",reality:"Unverified",auth:"N/A",verdict:"Unverified",why:"No job sheet/WO export to verify mileage"}],events:[{type:"Created",detail:"Verification Unverified; key docs missing",actor:"Cowork agent",at:"2026-06-14T08:30"}]},
+   {id:"REC-0004",recId:"r4",status:"Unverified",stage:"Awaiting invoice",version:1,jobKey:"apex|wo-4495|",wo:"WO-4495",vendor:"Apex Mechanical Services Ltd",type:"Quoted",inv:"",date:"2026-06-15",currency:"GBP",total:0,po:480,queried:0,exceptions:0,coverage:[],docs:"PO",summary:"Parked: PO received before its invoice. Will reconcile automatically when the invoice arrives.",query:"",lines:[],events:[{type:"Parked",detail:"Parked PO awaiting invoice",actor:"Managed agent",at:"2026-06-15T11:00"}]}];
+  renderAll();
+}
+// Auto-reload when the user returns to the artifact (e.g. after reconciling in chat).
+// Airtable doesn't push to a persisted artifact, so we re-pull on focus/visibility
+// (debounced) instead of polling. The header Refresh button still forces a reload.
+let _lastLoad=Date.now();
+function maybeReload(){ if(document.hidden)return; if(Date.now()-_lastLoad<4000)return; _lastLoad=Date.now(); hcrLoad(); }
+document.addEventListener("visibilitychange",maybeReload);
+window.addEventListener("focus",maybeReload);
+hcrLoad();
+</script>
+</div>
+</body>
+</html>
