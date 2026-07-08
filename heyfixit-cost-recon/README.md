@@ -5,7 +5,7 @@ that was actually done — and stop losing time and money to manual checking.**
 
 Part of the **[HeyFixit marketplace](https://github.com/heyfixitai/heyfixit-marketplace)** — free,
 purpose-built automation plugins for facilities-management back-office teams. This is the first
-plugin. Up and running in about an hour; no spreadsheets, no code.
+plugin. Up and running in about fifteen minutes; no spreadsheets, no code.
 
 ---
 
@@ -97,7 +97,7 @@ flagged mean?"* any time — there's a built-in operating guide and FAQ.
 | "Looks about right" | A deterministic verdict **plus** honest coverage of what was checked |
 | No record after payment | Status, line breakdown, finance pack, and audit trail per invoice |
 
-## Get started (about an hour)
+## Get started (about fifteen minutes)
 
 **You'll need:** the **Claude desktop app with Cowork**, and an **Airtable** account (free tier
 is fine).
